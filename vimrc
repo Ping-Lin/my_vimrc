@@ -19,6 +19,7 @@ Plugin 'tpope/vim-obsession' " keep the current state of Vim
 Plugin 'pangloss/vim-javascript' " javascript plugin
 Plugin 'mxw/vim-jsx' " javascript plugin
 Plugin 'Valloric/YouCompleteMe' "autocomplete for C, C++, etc
+Plugin 'rdnetto/YCM-Generator' " YCM generator for YouCompleteMe
 Plugin 'fcamel/gj' " CLI and Vim plugin to search codes instantly
 Plugin 'rhysd/vim-clang-format'   " clang-format for setting coding style
 Plugin 'MattesGroeger/vim-bookmarks'   " bookmarks
@@ -346,18 +347,33 @@ endif
 set lazyredraw
 
 " YCM
-let g:ycm_global_ycm_extra_conf = "/root/.ycm_extra_conf.py"
+let g:ycm_global_ycm_extra_conf = "~/.ycm_extra_conf.py"
 let g:ycm_collect_identifiers_from_tags_files = 1
 let g:ycm_seed_identifiers_with_syntax = 1
-set completeopt-=preview
+set completeopt=menu,menuone
 let g:ycm_confirm_extra_conf = 0
 let g:ycm_complete_in_comments = 1
 let g:ycm_min_num_of_chars_for_completion = 1
 let g:ycm_cache_omnifunc = 0
+let g:ycm_semantic_triggers =  {
+            \ 'c,cpp,python,java,go,erlang,perl': ['re!\w{2}'],
+            \ 'cs,lua,javascript': ['re!\w{2}'],
+            \ }
+let g:ycm_filetype_whitelist = {
+            \ "c":1,
+            \ "cpp":1,
+            \ "sh":1,
+            \ "zsh":1,
+            \ "javascript":1,
+            \ "python":1,
+            \ }
 
 
 " CLANG
 
 
+" add ctags path
+" add personal tags here
+" set tags+=/source/tags/libabccdef
 
 2match ErrorMsg /reviewed/

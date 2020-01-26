@@ -2,7 +2,7 @@
 
 install_vimrc()
 {
-    read -p "Install new ~/.vimrc, continue(y/n): " INSTALL_VIMRC
+    read -r -p "Install new ~/.vimrc, continue(y/n): " INSTALL_VIMRC
     case $INSTALL_VIMRC in
         Y|y)
             rm -f ~/.vimrc
@@ -16,13 +16,25 @@ install_vimrc()
 
 install_gdftool()
 {
-    read -p "Install new gdftool (linux only), continue(y/n): " INSTALL_GDFTOOL
+    read -r -p "Install new gdftool (linux only), continue(y/n): " INSTALL_GDFTOOL
     # mac and linux install binary is different, but -c -m both have similar behavior
     # so we use here
     case $INSTALL_GDFTOOL in
         Y|y)
             /usr/bin/install -c -m755 ~/.vim/tool/gdf /usr/local/bin/gdf
             /usr/bin/install -c -m755 ~/.vim/tool/gdf_wrapper /usr/local/bin/gdf_wrapper
+            ;;
+        N|n|*)
+            ;;
+    esac
+}
+
+install_ycm()
+{
+    read -r -p "Install new ~/.ycm_extra_conf.py, continue(y/n): " INSTALL_YCM
+    case $INSTALL_YCM in
+        Y|y)
+            /usr/bin/install -c -m755 ycm_extra_conf.py ~/.ycm_extra_conf.py
             ;;
         N|n|*)
             ;;
@@ -36,11 +48,12 @@ mkdir -p ~/.tmp
 # install file
 install_file="vimrc syntax tool"
 for f in ${install_file}; do
-    cp -r ${f} ~/.vim/
+    cp -r "${f}" ~/.vim/
 done
 
 install_vimrc
 install_gdftool
+install_ycm
 
 # Set shellcheck
 apt install shellcheck
@@ -52,4 +65,3 @@ apt install npm
 npm install npm -g
 python3 ~/.vim/bundle/YouCompleteMe/install.py --clang-completer --ts-completer
 
-cp ~/.vim/bundle/YouCompleteMe/.ycm_extra_conf.py ~/.ycm_extra_conf.py
