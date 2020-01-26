@@ -65,8 +65,8 @@ fi
 CheckGitDiffWrapper
 SetupWrapper
 
-tempDir=$(mktemp -d ".gdf_XXXX") || exit 1
-temprc=$(mktemp "$tempDir/vim.XXXX") || exit 1
+tempDir=$(mktemp -ud -p . -t ".gdf_XXXX") || exit 1
+temprc=$(mktemp -up $tempDir -t "vim.XXXX") || exit 1
 export GDF_TMPDIR=$(basename "$tempDir")
 
 _exit()
