@@ -23,6 +23,7 @@ Plugin 'rdnetto/YCM-Generator' " YCM generator for YouCompleteMe
 Plugin 'fcamel/gj' " CLI and Vim plugin to search codes instantly
 Plugin 'rhysd/vim-clang-format'   " clang-format for setting coding style
 Plugin 'MattesGroeger/vim-bookmarks'   " bookmarks
+Plugin 'editorconfig/editorconfig-vim' " editor config
 
 
 " Plugin 'godlygeek/tabular'
@@ -308,8 +309,8 @@ set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
-let g:syntastic_always_populate_loc_list = 0
-let g:syntastic_auto_loc_list = 0
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
 hi SpellBad ctermbg=red
@@ -322,6 +323,9 @@ let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_javascript_standard_generic = 1
 
 let g:syntastic_python_checkers = ['flake8']
+
+let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': ['python', 'javascript'], 'passive_filetypes': [] }
+nnoremap <F6> :SyntasticCheck<CR> :SyntasticToggleMode<CR>
 
 
 " tagbar and nerdtree
