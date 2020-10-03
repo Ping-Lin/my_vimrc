@@ -24,7 +24,8 @@ Plugin 'fcamel/gj' " CLI and Vim plugin to search codes instantly
 Plugin 'rhysd/vim-clang-format'   " clang-format for setting coding style
 Plugin 'MattesGroeger/vim-bookmarks'   " bookmarks
 Plugin 'editorconfig/editorconfig-vim' " editor config
-
+Plugin 'Valloric/YouCompleteMe' "autocomplete for C, C++, etc
+Plugin 'vim-syntastic/syntastic' " code checking
 
 " Plugin 'godlygeek/tabular'
 " Plugin 'plasticboy/vim-markdown'
@@ -319,12 +320,12 @@ hi SpellCap ctermbg=red
 let g:syntastic_c_compiler_options = "-Wall -Wextra -Wpedantic"
 let g:syntastic_cpp_compiler_options = "-Wall -Wextra -Wpedantic"
 
-let g:syntastic_javascript_checkers = ['eslint']
-let g:syntastic_javascript_standard_generic = 1
+" let g:syntastic_javascript_checkers = ['eslint']
+" let g:syntastic_javascript_standard_generic = 1
 
 let g:syntastic_python_checkers = ['flake8']
 
-let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': ['python', 'javascript'], 'passive_filetypes': [] }
+let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': ['python', 'sh'], 'passive_filetypes': [] }
 nnoremap <F6> :SyntasticCheck<CR> :SyntasticToggleMode<CR>
 
 
@@ -351,16 +352,20 @@ endif
 set lazyredraw
 
 " YCM
+let g:ycm_show_diagnostics_ui = 1
+let g:ycm_enable_diagnostic_signs = 1
+let g:ycm_enable_diagnostic_highlighting = 0
+
 let g:ycm_global_ycm_extra_conf = "~/.ycm_extra_conf.py"
 let g:ycm_collect_identifiers_from_tags_files = 1
 let g:ycm_seed_identifiers_with_syntax = 1
 set completeopt=menu,menuone
 let g:ycm_confirm_extra_conf = 0
+let g:ycm_complete_in_strings = 1
 let g:ycm_complete_in_comments = 1
-let g:ycm_min_num_of_chars_for_completion = 1
 let g:ycm_cache_omnifunc = 0
 let g:ycm_semantic_triggers =  {
-            \ 'c,cpp,python,java,go,erlang,perl': ['re!\w{2}'],
+            \ 'c,cpp,python,java,go,erlang,perl,sh': ['re!\w{2}'],
             \ 'cs,lua,javascript': ['re!\w{2}'],
             \ }
 let g:ycm_filetype_whitelist = {

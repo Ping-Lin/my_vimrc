@@ -19,7 +19,8 @@ install_ycm()
     read -r -p "Install new ~/.ycm_extra_conf.py, continue(y/n): " INSTALL_YCM
     case $INSTALL_YCM in
         Y|y)
-            python3 ~/.vim/bundle/YouCompleteMe/install.py --clang-completer --ts-completer
+            # old using --clang-completer, --ts-completer
+            python3 ~/.vim/bundle/YouCompleteMe/install.py --clangd-completer
             /usr/bin/install -c -m755 ycm_extra_conf.py ~/.ycm_extra_conf.py
             ;;
         N|n|*)
