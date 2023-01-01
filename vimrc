@@ -394,7 +394,6 @@ let g:ycm_filetype_whitelist = {
 
 " CLANG
 
-
 " add ctags path
 " add personal tags here
 " set tags+=/source/tags/libabccdef
