@@ -4,37 +4,37 @@ call vundle#begin()
 " BundleInstall to install the plugin
 Plugin 'gmarik/Vundle.vim' " For easily installing VIM Plugin
 Plugin 'tpope/vim-fugitive' " git plugin
-Plugin 'gregsexton/gitv' " git plugin for review commit
+Plugin 'junegunn/gv.vim' " git plugin for review commit
 Plugin 'bling/vim-airline' " beautify VIM
-Plugin 'skammer/vim-css-color' " css color
-Plugin 'kien/ctrlp.vim' " fuzzy search for moving to other files
+Plugin 'junegunn/fzf' " fuzzy search
+Plugin 'junegunn/fzf.vim' " fuzzy search for vim
 Plugin 'terryma/vim-multiple-cursors' " multiple selection
 Plugin 'honza/vim-snippets'
 Plugin 'tomtom/tcomment_vim' " easy comment
 Plugin 'mileszs/ack.vim' " quick seach pattern and select
 Plugin 'scrooloose/nerdtree' " tree that can select
 Plugin 'majutsushi/tagbar' "  browse the tags of the current file (Ex: functions, variables)
-Plugin 'vim-syntastic/syntastic' " code checking
 Plugin 'tpope/vim-obsession' " keep the current state of Vim
 Plugin 'pangloss/vim-javascript' " javascript plugin
 Plugin 'mxw/vim-jsx' " javascript plugin
-Plugin 'Valloric/YouCompleteMe' "autocomplete for C, C++, etc
+"Plugin 'Valloric/YouCompleteMe' "autocomplete for C, C++, etc
+Plugin 'vim-syntastic/syntastic' " code checking
 Plugin 'rdnetto/YCM-Generator' " YCM generator for YouCompleteMe
 Plugin 'fcamel/gj' " CLI and Vim plugin to search codes instantly
 Plugin 'rhysd/vim-clang-format'   " clang-format for setting coding style
 Plugin 'MattesGroeger/vim-bookmarks'   " bookmarks
-Plugin 'editorconfig/editorconfig-vim' " editor config
-Plugin 'Valloric/YouCompleteMe' "autocomplete for C, C++, etc
-Plugin 'vim-syntastic/syntastic' " code checking
+Plugin 'easymotion/vim-easymotion' " move in the code
 
-" Plugin 'godlygeek/tabular'
-" Plugin 'plasticboy/vim-markdown'
-" Plugin 'Lokaltog/vim-easymotion'
+
 " Plugin 'ervandew/supertab'
 " Plugin 'Raimondi/delimitMate'  "  automatic closing of quotes, parenthesis, brackets, etc.
 " Plugin 'garbas/vim-snipmate' " snippet
 " Plugin 'MarcWeber/vim-addon-mw-utils' " vim-snipmate use
 " Plugin 'tomtom/tlib_vim' " vim-snipmate use
+"Plugin 'godlygeek/tabular'   " for markdown edit
+"Plugin 'plasticboy/vim-markdown'   " for markdown edit
+"Plugin 'skammer/vim-css-color' " css color
+" Plugin 'kien/ctrlp.vim' " fuzzy search for moving to other files
 
 call vundle#end()
 
@@ -131,7 +131,7 @@ autocmd Filetype javascript setlocal ts=2 sw=2 sts=2 expandtab
 autocmd Filetype css setlocal ts=2 sw=2 sts=2 expandtab
 autocmd Filetype cpp setlocal ts=4 sw=4 sts=0 noexpandtab
 autocmd Filetype c setlocal ts=4 sw=4 sts=0 noexpandtab
-autocmd Filetype sh setlocal ts=4 sw=4 sts=0 noexpandtab
+"autocmd Filetype sh setlocal ts=4 sw=4 sts=4 expandtab
 autocmd Filetype groovy setlocal ts=4 sw=4 sts=0 expandtab
 
 autocmd Filetype cpp ClangFormatAutoEnable
@@ -150,6 +150,8 @@ nmap b<S-t> :tabprevious<CR>
 nmap bp :tabprevious<CR>
 nmap bd :tabclose<CR>
 
+" refine paste
+xnoremap p pgvy
 
 " ================= Set path and tags =========================================
 let g:tlist_javascript_settings = 'javascript;s:string;a:array;o:object;f:function'
@@ -182,8 +184,9 @@ set foldlevel=2
 " }}}
 
 " ================= KeyBoard Mappings (:h key-notation) =======================
-map <space> /<C-R>=expand("<cword>")<CR><CR>
-map <C-a> :Ack! <cword><CR>
+nnoremap <space> /<C-R>=expand("<cword>")<CR><CR>
+map <C-a> :Ag <C-R>=expand('<cword>')<CR><CR>
+map <C-d> :YcmCompleter GetTypeImprecise <cword><CR>
 if has("unix")
 	let s:uname = system("uname -s")
 	if s:uname == "Darwin\n"
@@ -219,10 +222,15 @@ hi Folded       ctermfg=DarkGray ctermbg=16
 hi FoldColumn       ctermbg=236
 
 hi DiffAdd      ctermbg=Black
-hi DiffDelete       ctermbg=16 ctermfg=DarkGray
-hi DiffChange       term=reverse ctermbg=236
+hi DiffDelete   ctermbg=16 ctermfg=DarkGray
+hi DiffChange   term=reverse ctermbg=236
 hi DiffText     ctermbg=DarkBlue
 "hi DiffText        ctermbg=Blue ctermfg=White
+
+" hi DiffAdd      ctermbg=Green ctermfg=DarkGray cterm=bold
+" hi DiffAdd      ctermbg=Red ctermfg=DarkGray cterm=bold
+" hi DiffChange   term=reverse ctermbg=236 cterm=bold
+" hi DiffText      ctermbg=DarkBlue
 
 hi NonText      ctermfg=DarkGray
 hi SpecialKey   ctermfg=DarkGray ctermbg=none
@@ -295,8 +303,12 @@ autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 " airline
 let g:airline#extensions#tabline#enabled = 1
 
-" easy-motion
-let EasyMotion_leader_key=","
+" easy motion
+let g:EasyMotion_smartcase = 1
+nmap s <Plug>(easymotion-sl2)
+nmap f <Plug>(easymotion-overwin-f2)
+map  / <Plug>(easymotion-sn)
+omap / <Plug>(easymotion-tn)
 
 " set ctags
 " set tags=/Users/Ping/workspace/samba-4.5.3/tags
@@ -320,12 +332,13 @@ hi SpellCap ctermbg=red
 let g:syntastic_c_compiler_options = "-Wall -Wextra -Wpedantic"
 let g:syntastic_cpp_compiler_options = "-Wall -Wextra -Wpedantic"
 
-" let g:syntastic_javascript_checkers = ['eslint']
+"let g:syntastic_javascript_checkers = ['eslint']
 " let g:syntastic_javascript_standard_generic = 1
 
 let g:syntastic_python_checkers = ['flake8']
 
-let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': ['python', 'sh'], 'passive_filetypes': [] }
+
+let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': [], 'passive_filetypes': [] }
 nnoremap <F6> :SyntasticCheck<CR> :SyntasticToggleMode<CR>
 
 
@@ -336,7 +349,7 @@ nmap <C-k>	:NERDTreeToggle<CR>
 " vim-javascript
 let g:javascript_plugin_jsdoc = 1
 let g:ycm_seed_identifiers_with_syntax = 1
-let g:ycm_key_invoke_completion = '<C-y>'
+" let g:ycm_key_invoke_completion = '<C-y>'
 nnoremap <F5> :YcmForceCompileAndDiagnostics<CR>
 
 let g:ycm_confirm_extra_conf=0
@@ -344,12 +357,13 @@ let g:ycm_confirm_extra_conf=0
 " vim-jsx
 let g:jsx_ext_required = 0 " Allow JSX in normal JS files
 
+" ack
 if executable('ag')
         let g:ackprg = 'ag --vimgrep'
 endif
 
 " Gitv
-set lazyredraw
+" set lazyredraw
 
 " YCM
 let g:ycm_show_diagnostics_ui = 1
@@ -368,6 +382,7 @@ let g:ycm_semantic_triggers =  {
             \ 'c,cpp,python,java,go,erlang,perl,sh': ['re!\w{2}'],
             \ 'cs,lua,javascript': ['re!\w{2}'],
             \ }
+" whitelist value is NOT important, only consider key
 let g:ycm_filetype_whitelist = {
             \ "c":1,
             \ "cpp":1,
@@ -377,7 +392,6 @@ let g:ycm_filetype_whitelist = {
             \ "python":1,
             \ }
 
-
 " CLANG
 
 
@@ -386,3 +400,7 @@ let g:ycm_filetype_whitelist = {
 " set tags+=/source/tags/libabccdef
 
 2match ErrorMsg /reviewed/
+
+" FZF
+nnoremap <silent> <C-p> :Files<CR>
+let g:fzf_layout = { 'down': '40%' }
