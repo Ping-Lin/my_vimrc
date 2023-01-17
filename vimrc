@@ -307,8 +307,8 @@ let g:airline#extensions#tabline#enabled = 1
 let g:EasyMotion_smartcase = 1
 nmap s <Plug>(easymotion-sl2)
 nmap f <Plug>(easymotion-overwin-f2)
-map  / <Plug>(easymotion-sn)
-omap / <Plug>(easymotion-tn)
+" map  / <Plug>(easymotion-sn)
+" omap / <Plug>(easymotion-tn)
 
 " set ctags
 " set tags=/Users/Ping/workspace/samba-4.5.3/tags
@@ -366,18 +366,17 @@ endif
 " set lazyredraw
 
 " YCM
-let g:ycm_show_diagnostics_ui = 1
-let g:ycm_enable_diagnostic_signs = 1
 let g:ycm_enable_diagnostic_highlighting = 0
 
 let g:ycm_global_ycm_extra_conf = "~/.ycm_extra_conf.py"
+let g:ycm_extra_conf_globlist = ['~/.ycm_extra_conf.py']
 let g:ycm_collect_identifiers_from_tags_files = 1
-let g:ycm_seed_identifiers_with_syntax = 1
+" let g:ycm_seed_identifiers_with_syntax = 1
 set completeopt=menu,menuone
-let g:ycm_confirm_extra_conf = 0
+let g:ycm_confirm_extra_conf = 1
 let g:ycm_complete_in_strings = 1
 let g:ycm_complete_in_comments = 1
-let g:ycm_cache_omnifunc = 0
+" let g:ycm_cache_omnifunc = 0
 let g:ycm_semantic_triggers =  {
             \ 'c,cpp,python,java,go,erlang,perl,sh': ['re!\w{2}'],
             \ 'cs,lua,javascript': ['re!\w{2}'],
@@ -403,3 +402,16 @@ let g:ycm_filetype_whitelist = {
 " FZF
 nnoremap <silent> <C-p> :Files<CR>
 let g:fzf_layout = { 'down': '40%' }
+
+" fuzzy incsearch
+function! s:config_easyfuzzymotion(...) abort
+    return extend(copy({
+                \   'converters': [incsearch#config#fuzzyword#converter()],
+                \   'modules': [incsearch#config#easymotion#module({'overwin': 1})],
+                \   'keymap': {"\<CR>": '<Over>(easymotion)'},
+                \   'is_expr': 0,
+                \   'is_stay': 0
+                \ }), get(a:, 1, {}))
+endfunction
+
+noremap <silent><expr> z/ incsearch#go(<SID>config_easyfuzzymotion())
