@@ -1,30 +1,35 @@
-" set up vundle
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" BundleInstall to install the plugin
-Plugin 'gmarik/Vundle.vim' " For easily installing VIM Plugin
-Plugin 'tpope/vim-fugitive' " git plugin
-Plugin 'junegunn/gv.vim' " git plugin for review commit
-Plugin 'bling/vim-airline' " beautify VIM
-Plugin 'junegunn/fzf' " fuzzy search
-Plugin 'junegunn/fzf.vim' " fuzzy search for vim
-Plugin 'terryma/vim-multiple-cursors' " multiple selection
-Plugin 'honza/vim-snippets'
-Plugin 'tomtom/tcomment_vim' " easy comment
-Plugin 'mileszs/ack.vim' " quick seach pattern and select
-Plugin 'scrooloose/nerdtree' " tree that can select
-Plugin 'majutsushi/tagbar' "  browse the tags of the current file (Ex: functions, variables)
-Plugin 'tpope/vim-obsession' " keep the current state of Vim
-Plugin 'pangloss/vim-javascript' " javascript plugin
-Plugin 'mxw/vim-jsx' " javascript plugin
-"Plugin 'Valloric/YouCompleteMe' "autocomplete for C, C++, etc
-Plugin 'vim-syntastic/syntastic' " code checking
-Plugin 'rdnetto/YCM-Generator' " YCM generator for YouCompleteMe
-Plugin 'fcamel/gj' " CLI and Vim plugin to search codes instantly
-Plugin 'rhysd/vim-clang-format'   " clang-format for setting coding style
-Plugin 'MattesGroeger/vim-bookmarks'   " bookmarks
-Plugin 'easymotion/vim-easymotion' " move in the code
+" set up vim-plug
+" PlugInstall to install the plugin
+call plug#begin('~/.vim/plugged')
 
+Plug 'tpope/vim-fugitive' " git plugin
+Plug 'junegunn/gv.vim' " git plugin for review commit
+Plug 'bling/vim-airline' " beautify VIM
+Plug 'junegunn/fzf' " fuzzy search
+Plug 'junegunn/fzf.vim' " fuzzy search for vim
+Plug 'terryma/vim-multiple-cursors' " multiple selection
+Plug 'honza/vim-snippets'
+Plug 'tomtom/tcomment_vim' " easy comment
+Plug 'mileszs/ack.vim' " quick seach pattern and select
+Plug 'scrooloose/nerdtree' " tree that can select
+Plug 'majutsushi/tagbar' "  browse the tags of the current file (Ex: functions, variables)
+Plug 'tpope/vim-obsession' " keep the current state of Vim
+Plug 'pangloss/vim-javascript' " javascript plugin
+Plug 'mxw/vim-jsx' " javascript plugin
+Plug 'ycm-core/YouCompleteMe', { 'do': 'python3 install.py --clangd-completer --force-sudo --ts-completer' } "autocomplete for C, C++, etc
+Plug 'vim-syntastic/syntastic' " code checking
+Plug 'rdnetto/YCM-Generator' " YCM generator for YouCompleteMe
+Plug 'fcamel/gj' " CLI and Vim plugin to search codes instantly
+Plug 'rhysd/vim-clang-format'   " clang-format for setting coding style
+Plug 'MattesGroeger/vim-bookmarks'   " bookmarks
+Plug 'easymotion/vim-easymotion' " move in the code
+Plug 'haya14busa/incsearch.vim' " fuzzy search
+Plug 'haya14busa/incsearch-fuzzy.vim' " fuzzy search
+Plug 'haya14busa/incsearch-easymotion.vim' " fuzzy search
+
+
+
+call plug#end()
 
 " Plugin 'ervandew/supertab'
 " Plugin 'Raimondi/delimitMate'  "  automatic closing of quotes, parenthesis, brackets, etc.
@@ -35,8 +40,6 @@ Plugin 'easymotion/vim-easymotion' " move in the code
 "Plugin 'plasticboy/vim-markdown'   " for markdown edit
 "Plugin 'skammer/vim-css-color' " css color
 " Plugin 'kien/ctrlp.vim' " fuzzy search for moving to other files
-
-call vundle#end()
 
 " ================= remember position of cursor ===============================
 if filereadable($VIMRUNTIME . "/vimrc_example.vim")
