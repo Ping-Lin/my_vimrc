@@ -124,26 +124,26 @@ def GetCompilationInfoForFile( filename ):
   return database.GetCompilationInfoForFile( filename )
 
 
-def FlagsForFile( filename, **kwargs ):
-  if database:
-    # Bear in mind that compilation_info.compiler_flags_ does NOT return a
-    # python list, but a "list-like" StringVec object
-    compilation_info = GetCompilationInfoForFile( filename )
-    if not compilation_info:
-      return None
-
-    final_flags = MakeRelativePathsInFlagsAbsolute(
-      compilation_info.compiler_flags_,
-      compilation_info.compiler_working_dir_ )
-
-  else:
-    relative_to = DirectoryOfThisScript()
-    final_flags = MakeRelativePathsInFlagsAbsolute( flags, relative_to )
-
-  return {
-    'flags': final_flags,
-    'do_cache': True
-  }
+# def FlagsForFile( filename, **kwargs ):
+#   if database:
+#     # Bear in mind that compilation_info.compiler_flags_ does NOT return a
+#     # python list, but a "list-like" StringVec object
+#     compilation_info = GetCompilationInfoForFile( filename )
+#     if not compilation_info:
+#       return None
+#
+#     final_flags = MakeRelativePathsInFlagsAbsolute(
+#       compilation_info.compiler_flags_,
+#       compilation_info.compiler_working_dir_ )
+#
+#   else:
+#     relative_to = DirectoryOfThisScript()
+#     final_flags = MakeRelativePathsInFlagsAbsolute( flags, relative_to )
+#
+#   return {
+#     'flags': final_flags,
+#     'do_cache': True
+#   }
 
 def Settings( **kwargs ):
     language = kwargs[ 'language' ]
