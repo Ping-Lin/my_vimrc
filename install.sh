@@ -7,7 +7,7 @@ install_vimrc()
         Y|y)
             rm -f ~/.vimrc
             ln -s ~/.vim/vimrc ~/.vimrc
-            vim +BundleInstall +qall
+            vim +PlugInstall +qall
             ;;
         N|n|*)
             ;;
@@ -19,8 +19,6 @@ install_ycm()
     read -r -p "Install new ~/.ycm_extra_conf.py, continue(y/n): " INSTALL_YCM
     case $INSTALL_YCM in
         Y|y)
-            # old using --clang-completer, --ts-completer
-            python3 ~/.vim/bundle/YouCompleteMe/install.py --clangd-completer
             /usr/bin/install -c -m755 ycm_extra_conf.py ~/.ycm_extra_conf.py
             ;;
         N|n|*)
@@ -44,7 +42,7 @@ install_gdftool()
 
 install_linux_used()
 {
-    read -r -p "Install other config (linux only), continue(y/n): " INSTALL_LINUX_OTHERS
+    read -r -p "Install shellcheck, youcompleteme dependency, npm (linux only), continue(y/n): " INSTALL_LINUX_OTHERS
 
     case $INSTALL_LINUX_OTHERS in
         Y|y)
@@ -63,11 +61,12 @@ install_linux_used()
 }
 
 # preprocess
-git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 mkdir -p ~/.tmp
 
 # install file
-install_file="vimrc syntax tool"
+install_file="vimrc tool"
 for f in ${install_file}; do
     cp -r "${f}" ~/.vim/
 done
